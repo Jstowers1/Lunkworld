@@ -23,8 +23,6 @@ def moneyCheck(money,itemCost):
 
 #Storefront, most of the code relevant to the store
 def storeFront(money):
-
-
   print("Howdy partner, welcome to the Lunkworld general store. What can I get for you?")
   print("1 - Apple ($5) - Restores 5 energy")
   print("2 - Cheese ($20) - Restores all of your energy")
@@ -102,6 +100,3 @@ def storeFront(money):
     if (storeItem == 505):
         print("It was nice to have you at our shop!")
         break
-
-    with open("data.ini","w") as configFile:
-      config.write(configFile)

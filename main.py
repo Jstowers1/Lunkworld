@@ -122,7 +122,8 @@ whereGo = worldMap()
 if whereGo == 1:
     store.storeFront(money)
     #config.set("items",'apple','1')
-    print("help")
+
+    #print("apple")
 
 with open("data.ini","w") as configFile:
   config.write(configFile)
