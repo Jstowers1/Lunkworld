@@ -3,6 +3,7 @@
 import configparser
 config = configparser.ConfigParser()
 config.read('data.ini')
+
 import os
 def clearConsole():
   command = 'clear'
@@ -11,6 +12,7 @@ def clearConsole():
   os.system(command)
 import time
 #Imports other files in this program.
+import QOL
 import store
 
 #The worldMap function, it prints out the world map and asks the user on where they want to go.
@@ -19,7 +21,7 @@ def worldMap():
   money = config.getint('playerData','money')
   clearConsole()
   print("Welcome to the world map!")
-  print("When you enter anywhere, type in exit in an input prompt to leave!")
+  print("When you enter anywhere, type in 505 at an input prompt to leave!")
   print("Energy: ",energy)
   print("Money: ",money)
   print("")
@@ -27,16 +29,15 @@ def worldMap():
   print("2 - Workplace")
   print("3 - House")
   print("4 - Club (Can only access if you have a VIP pass!)")
-  print("5 - Close Lunkworld")
+  print("5 - Check your inventory")
+  print("6 - Close Lunkworld")
+
   inputVar = int(input("Just type in the corresponding number! "))
-  if inputVar < 1 or inputVar > 5:
-    while True:
-      inputVar = int(input("Invalid input! Please try again. "))
-      if inputVar >= 1 and inputVar <= 5:
-        break
+  QOL.inputCheck(1, 5, inputVar)
   print("Okay! Heading over now!")
   return(inputVar)
-  
+ 
+
 #logInCheck compares player input to their saved information. 
 def logInCheck():
   global username
@@ -68,11 +69,13 @@ if not config.has_section("playerData"):
 if not config.has_section("items"):
   config.add_section("items")
   config.set("items","VIP","False")
+  config.set("items","helmet","False")
+  config.set("items","fishingRod","False")
   config.set("items","apple","0")
   config.set("items","cheese","0")
-  
-  
-
+  config.set("items","terence","0")
+ 
+money = config.getint('playerData','money')
 
 #Grabs if the login exists, and then grabs the login information (username + password).
 logIn = config.getboolean("logIn","previousInfo")
@@ -112,8 +115,14 @@ elif createInfo == False:
     logInCheck()
 time.sleep(1.5)
 clearConsole()
+
+#Logic to control the world map
+whereGo = worldMap()
+
+if whereGo == 1:
+    store.storeFront(money)
+    #config.set("items",'apple','1')
+    print("help")
+
 with open("data.ini","w") as configFile:
   config.write(configFile)
-#HELP
-whereGo = worldMap()
-print(whereGo)
